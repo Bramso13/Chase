@@ -45,6 +45,10 @@ Bienvenue sur le bot officiel de Bramso.
 Les commandes disponibles sont :
 - /AAPL pour obtenir la prédiction du prix et du pourcentage de l'action apple.
 - /TSLA pour obtenir la prédiction du prix et du pourcentage de l'action tesla.
+- /JNJ pour obtenir la prédiction du prix et du pourcentage de l'action JNJ.
+- /SHOP pour obtenir la prédiction du prix et du pourcentage de l'action SHOP.
+- /TSM pour obtenir la prédiction du prix et du pourcentage de l'action TSM.
+- /BTC pour obtenir la prédiction du prix et du pourcentage de l'action BTC.
 
     """)
 
@@ -68,9 +72,80 @@ def get_aapl(update, context):
     global prixOneHour
     global iGlobal
     iGlobal=1
-    prixDay = get_predictions("EOD/AAPL", get_yesterday(), "1d")[0][0][0]
+    update.message.reply_text("Chargement...")
+
+    prixDay = get_predictions("EOD/AAPL", get_today(), "1d")[0][0][0]
     
     prixOneHour = get_predictions("EOD/AAPL", get_today(), "1h")[0][0][0]
+    update.message.reply_text("""
+
+Les commandes disponibles sont :
+- /prix pour obtenir la prédiction du prix.
+- /pourcent pour obtenir la prédiction du pourcentage.
+
+    """)
+def get_BTC(update, context):
+    global prixDay
+    global prixOneHour
+    global iGlobal
+    iGlobal=1
+    update.message.reply_text("Chargement...")
+
+    prixDay = get_predictions("EOD/BTC-USD", get_today(), "1d")[0][0][0]
+    
+    prixOneHour = get_predictions("EOD/BTC-USD", get_today(), "1h")[0][0][0]
+    update.message.reply_text("""
+
+Les commandes disponibles sont :
+- /prix pour obtenir la prédiction du prix.
+- /pourcent pour obtenir la prédiction du pourcentage.
+
+    """)
+def get_JNJ(update, context):
+    global prixDay
+    global prixOneHour
+    global iGlobal
+    iGlobal=1
+    update.message.reply_text("Chargement...")
+
+    prixDay = get_predictions("EOD/JNJ", get_today(), "1d")[0][0][0]
+    
+    prixOneHour = get_predictions("EOD/JNJ", get_today(), "1h")[0][0][0]
+    update.message.reply_text("""
+
+Les commandes disponibles sont :
+- /prix pour obtenir la prédiction du prix.
+- /pourcent pour obtenir la prédiction du pourcentage.
+
+    """)
+def get_SHOP(update, context):
+    global prixDay
+    global prixOneHour
+    global iGlobal
+    iGlobal=1
+    update.message.reply_text("Chargement...")
+
+    prixDay = get_predictions("EOD/SHOP", get_today(), "1d")[0][0][0]
+    
+    prixOneHour = get_predictions("EOD/SHOP", get_today(), "1h")[0][0][0]
+    update.message.reply_text("""
+
+Les commandes disponibles sont :
+- /prix pour obtenir la prédiction du prix.
+- /pourcent pour obtenir la prédiction du pourcentage.
+
+    """)
+
+def get_TSM(update, context):
+    global prixDay
+    global prixOneHour
+    global iGlobal
+    iGlobal=1
+    update.message.reply_text("Chargement...")
+
+    prixDay = get_predictions("EOD/TSM", get_today(), "1d")[0][0][0]
+    
+    prixOneHour = get_predictions("EOD/TSM", get_today(), "1h")[0][0][0]
     update.message.reply_text("""
 
 Les commandes disponibles sont :
@@ -84,7 +159,8 @@ def get_tsla(update, context):
     global prixOneHour
     global iGlobal
     iGlobal=1
-    prixDay = get_predictions("EOD/TSLA", get_yesterday(), "1d")[0][0][0]
+    update.message.reply_text("Chargement...")
+    prixDay = get_predictions("EOD/TSLA", get_today(), "1d")[0][0][0]
 
     prixOneHour = get_predictions("EOD/TSLA", get_today(), "1h")[0][0][0]
     update.message.reply_text("""
@@ -98,7 +174,7 @@ Les commandes disponibles sont :
 def prix(update, context):
 
     update.message.reply_text("Prediction du prix "+get_today()+"(1jour): "+str(prixDay)+" USD")
-    update.message.reply_text("Prediction du prix "+get_hour()+"(1h): "+str(prixOneHour)+" USD")
+    update.message.reply_text("Prediction du prix (1h): "+str(prixOneHour)+" USD")
     update.message.reply_text("""
     Retour vers le menu principal : /start
     """)
@@ -106,7 +182,7 @@ def prix(update, context):
 
 def pourcent(update, context):
     update.message.reply_text("Prediction du pourcentage "+get_today()+"(1jour) : "+str(pourcent1)+" %")
-    update.message.reply_text("Prediction du pourcentage "+get_hour()+"(1h): "+str(pourcent2)+" %")
+    update.message.reply_text("Prediction du pourcentage (1h): "+str(pourcent2)+" %")
     update.message.reply_text("""
     Retour vers le menu principal : /start
     """)
@@ -130,6 +206,10 @@ if __name__ == "__main__":
     dp.add_handler(CommandHandler("start", start))
     dp.add_handler(CommandHandler("TSLA", get_tsla))
     dp.add_handler(CommandHandler("AAPL", get_aapl))
+    dp.add_handler(CommandHandler("JNJ", get_JNJ))
+    dp.add_handler(CommandHandler("SHOP", get_SHOP))
+    dp.add_handler(CommandHandler("TSM", get_TSM))
+    dp.add_handler(CommandHandler("BTC", get_BTC))
     dp.add_handler(CommandHandler("prix", prix))
     dp.add_handler(CommandHandler("pourcent", pourcent))
 
