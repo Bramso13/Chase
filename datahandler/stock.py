@@ -10,6 +10,7 @@ class StockDataHandler(DataHandler):
 
     def add(self, data: pd.DataFrame, name: str):
         self.data = data
+        
         self.rel_stats = {}
         for col in REL_DATA_COLUMNS:
             self.rel_stats[col] = {
@@ -19,6 +20,7 @@ class StockDataHandler(DataHandler):
                               'max': self.data[col].max()
                               }
         self.rel_stats = pd.DataFrame(self.rel_stats)
+
         self.name = name
 
     def preprocess_data(self):
@@ -34,6 +36,7 @@ class StockDataHandler(DataHandler):
             for fp in CUSTOM_PREPROCESSOR_FP:
                 self.data[col] = fp(self.data[col])
         self.data = self.data.dropna(axis='index')
+
 
     def __len__(self):
         return self.data.shape[0]

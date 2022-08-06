@@ -8,20 +8,22 @@ MODEL_DIR = PROJECT_DIR + "/models/"
 
 # DATA EXTRACTION, TRANSFORMATION, LOADING
 
-STOCKS = ['EOD/DIS', 'EOD/BA']
-MODE = 'LOCAL'  # Either local or quandl. Tell the program from where to extract the data.
+STOCKS = ['EOD/AAPL']
+MODE = 'quandl'  # Either local or quandl. Tell the program from where to extract the data.
 SAVE = True  # If mode is "quandl", then save the extracted datasets
-RETRIEVAL_START_DATE = '2016-06-06'  # YYYY-MM-DD
-RETRIEVAL_END_DATE = '2018-07-20'  # YYYY-MM-DD
+RETRIEVAL_START_DATE = '2021-08-14'  # YYYY-MM-DD
+RETRIEVAL_END_DATE = '2022-08-03'  # YYYY-MM-DD
+INTERVAL = '1d'
+ITERATION = 30
 INDEX_COLUMN = 'Date'  # If None, then use default indexing.
-REL_DATA_COLUMNS = ['Adj_Close', 'Volume']
+REL_DATA_COLUMNS = ['Close', 'Volume']
 REL_PREDEFINED_FEATURES = ['sma', 'daily_returns']
 EXTRA_FEATURES = {}
-COLUMNS_TO_STANDARDIZE = ['Adj_Close', 'Volume', 'sma', 'daily_returns']
+COLUMNS_TO_STANDARDIZE = ['Close', 'Volume', 'sma', 'daily_returns']
 COLUMNS_TO_NORMALIZE = []  # PRO TIP: Standardization works better in most cases.
 CUSTOM_PREPROCESSOR_FP = []  # If you want custom preprocessing(s) on data, add function pointer to this list.
 CUSTOM_PREPROCESSOR_COLUMNS = []  # Columns on which you want to do custom preprocessing.
-FEATURE_TO_PREDICT = ['Adj_Close']
+FEATURE_TO_PREDICT = ['Close']
 
 # DEFAULT NEURAL NETWORK CONFIGURATION
 

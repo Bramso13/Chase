@@ -1,6 +1,7 @@
 from pandas import read_csv
 import numpy as np
 import quandl
+import yfinance as yf
 
 from config import *
 from utils.exceptions import UnknownModeException
@@ -65,7 +66,7 @@ def window_transform_series(series, feature):
 #     return dataframe
 
 
-def get_data_from_quandl(stocks, save=True):
+def get_data_from_quandl(stocks, endd, inte):
     """
     Returned dataframe is indexed by Date. So, no need to externally parse dates and change index column.
     :param stocks: Stocks to be downloaded
@@ -73,24 +74,28 @@ def get_data_from_quandl(stocks, save=True):
     :return: A list of pandas dataframe containing the details of requested stocks.
     """
     quandl.ApiConfig.api_key = QUANDL_KEY
+
+
     df_list = []
     for stock in stocks:
         print("DOWNLOADING {0} DATA".format(stock))
-        df = quandl.get(stock, start_date=RETRIEVAL_START_DATE, end_date=RETRIEVAL_END_DATE)
+        df = yf.download(stock.split("/")[-1], start=RETRIEVAL_START_DATE, end=endd, interval=inte)
         df = df[REL_DATA_COLUMNS]
         df_list.append(df)
-        if save:
-            df.to_csv('{0}/{1}.csv'.format(DATA_DIR, stock.split('/')[-1]))
+        # if save:
+        #     df.to_csv('{0}/{1}.csv'.format(DATA_DIR, stock.split('/')[-1]))
+        if inte == "1d":
+            print(df_list)
     return df_list
 
 
-def get_datasets():
+def get_datasets(stocki, end, inte):
     if str(MODE).upper() == 'LOCAL':
         rel_cols = REL_DATA_COLUMNS.copy()
         rel_cols.append(INDEX_COLUMN)
         return [read_csv(DATA_DIR + stock.split('/')[-1] + '.csv', usecols=rel_cols, index_col=INDEX_COLUMN,
                          infer_datetime_format=True, parse_dates=True) for stock in STOCKS]
     elif str(MODE).upper() == 'QUANDL':
-        return get_data_from_quandl(STOCKS, SAVE)
+        return get_data_from_quandl(stocki, end, inte)
     else:
         raise UnknownModeException('Mode should be either "local" or "quandl"')
